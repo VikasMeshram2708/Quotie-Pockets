@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bgPurple {
+    background-color: #cb57f7;
+}
+
+.textPurple {
+    color: #cb57f7;
+}
+
+.b {
+    border: 2px solid red;
+}

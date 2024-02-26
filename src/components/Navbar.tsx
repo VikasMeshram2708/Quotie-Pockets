@@ -70,7 +70,7 @@ export default function Navbar() {
           placeholder="Search"
           className="px-3 rounded-md outline-none bg-transparent sm:text-[1.2rem] p-2"
         />
-        <div className="w-14 px-4 py-2 bgPurple">
+        <div className="w-14 px-4 py-3 bgPurple">
           <FaSearch size={25} />
         </div>
       </div>

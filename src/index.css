@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --my-purple: #cb57f7;
+}
 .bgPurple {
     background-color: #cb57f7;
 }

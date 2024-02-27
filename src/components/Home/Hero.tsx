@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 export default function Hero() {
   return (
@@ -18,7 +20,7 @@ export default function Hero() {
           type="button"
           className="bgPurple hover:bg-purple-500 w-full sm:w-64 p-2 rounded text-white font-semibold text-[1.2rem]"
         >
-          Explore Now
+          <Link to="/quotie">Explore Now</Link>
         </button>
       </div>
       <div className="aspect-video p-2 border-4 rounded border-[#cb57f7]">

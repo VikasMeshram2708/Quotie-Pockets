@@ -9,6 +9,10 @@ import Privacy from "./page/Privacy.tsx";
 import Terms from "./page/Terms.tsx";
 import Layout from "./page/Layout.tsx";
 import Home from "./page/Home.tsx";
+import Quotie from "./page/Quotie.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import SignIn from "./page/SignIn.tsx";
+import SignUp from "./page/SignUp.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +25,24 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/quotie",
+        element: (
+          <ProtectedRoute>
+            <Quotie />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "signin",
+        element: <SignIn />,
+      },
+      {
+        path: "signup",
+        element: <SignUp />,
       },
       {
         path: "contact",

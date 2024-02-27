@@ -23,6 +23,7 @@ export default function Hero() {
       </div>
       <div className="aspect-video p-2 border-4 rounded border-[#cb57f7]">
         <video
+        className="rounded"
           loading="lazy"
           // @ts-expect-error
           muted="muted"

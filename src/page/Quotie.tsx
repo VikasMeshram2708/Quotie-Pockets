@@ -10,8 +10,8 @@ interface QuotieInputs {
 }
 
 const Quotie = () => {
-  const [titleValue, setTitle] = useState("");
-  const [messageValue, setMessage] = useState("");
+  const [titleValue, setTitle] = useState<string>("");
+  const [messageValue, setMessage] = useState<string>("");
   const [items, setItems] = useState<QuotieInputs[]>([]);
   const [toggleEdit, setToggleEdit] = useState(false);
   const [editId, setEditId] = useState<number>();
@@ -71,7 +71,6 @@ const Quotie = () => {
     setTitle(quoties[0]?.title);
     setMessage(quoties[0]?.message);
   };
-
   return (
     <section className="max-w-[90%] mx-auto mt-10">
       <h1 className="text-center text-5xl my-10 italic">

@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import SignIn from "./page/SignIn.tsx";
 import SignUp from "./page/SignUp.tsx";
 import { Auth0Provider } from "@auth0/auth0-react";
+import Dashboard from "./page/Dashboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
       {
         path: "signin",

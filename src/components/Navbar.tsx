@@ -189,6 +189,19 @@ export default function Navbar() {
               Terms of Use
             </Link>
           </li>
+          {user?.given_name && (
+            <li>
+              <Link
+                to="/dashboard"
+                className={`${
+                  pathname === "/dashboard" &&
+                  "border-[--my-purple] border-b-2 pb-3"
+                }`}
+              >
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="hidden border-2 lg:flex items-center rounded border-[--my-purple]">

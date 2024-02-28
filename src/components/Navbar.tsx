@@ -1,10 +1,14 @@
-import { FaSearch } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { FaChevronDown } from "react-icons/fa";
 
 const SideBar = () => {
   const { pathname } = useLocation();
+  const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
+  const [toggleProfile, setToggleProfile] = useState(false);
+
   return (
     <section className="bg-slate-600/70 p-2 flex flex-col gap-5">
       <ul className="grid items-center gap-5">
@@ -61,27 +65,71 @@ const SideBar = () => {
           </Link>
         </li>
       </ul>
+      <div className="flex items-center">
+        {isAuthenticated && (
+          <div className="w-44 relative flex items-center gap-3">
+            <img
+              className="w-14 p-2 h-14"
+              src={user?.picture}
+              onError={(e: SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.src = "https://is.gd/DwwpQT";
+              }}
+              alt="signed in users"
+            />
+            <div className="flex items-center gap-2">
+              <p className="text-[1.5rem] font-semibold">{user?.given_name}</p>
+              <FaChevronDown
+                onClick={() => setToggleProfile((prev) => !prev)}
+                size={25}
+              />
+            </div>
+            {toggleProfile && (
+              <div className="absolute left-0 p-5 w-full top-14 border-2 border-[--my-purple] bg-black rounded-xl">
+                <div className="grid gap-2">
+                  <p className="text-[1.2rem] font-semibold hover:underline cursor-pointer">
+                    Dashboard
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => logout()}
+                    className="btn btn-error text-lg text-white
+                     rounded-full"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
-      <div className="flex items-center rounded justify-between outline outline-purple-500  gap-2">
-        <input
-          type="text"
-          placeholder="Search"
-          className="px-3 rounded-md outline-none bg-transparent sm:text-[1.2rem] p-2"
-        />
-        <div className="w-14 px-4 py-2 bgPurple">
-          <FaSearch size={25} />
-        </div>
+        {!isAuthenticated && (
+          <button
+            onClick={() => loginWithRedirect()}
+            className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold"
+          >
+            Login
+          </button>
+        )}
       </div>
     </section>
   );
 };
 export default function Navbar() {
+  const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
+  const [toggleProfile, setToggleProfile] = useState(false);
+
   const [toggle, setToggle] = useState(false);
   const { pathname } = useLocation();
+
   useEffect(() => {
-  }, [pathname]);
+    // console.log("status", isAuthenticated);
+    console.log("user-data", user);
+    // console.log("loading", isLoading);
+  }, [pathname, isAuthenticated, user]);
+
   return (
-    <nav className="px-5 min-h-[7vh] p-3 shadow shadow-purple-500">
+    <nav className="px-5 min-h-[7vh] max-w-[90%] mx-auto p-3 border-b-2 border-[--my-purple]">
       <div className="flex items-center justify-between">
         <h1 className="textPurple text-[2rem] italic">
           <Link to="/">Quotie Pockets</Link>
@@ -143,15 +191,54 @@ export default function Navbar() {
           </li>
         </ul>
 
-        <div className="hidden lg:flex items-center rounded justify-between outline outline-purple-500  gap-2">
-          <input
-            type="text"
-            placeholder="Search"
-            className="px-3 rounded-md outline-none bg-transparent sm:text-[1.2rem] p-2"
-          />
-          <div className="w-14 px-4 py-3 bgPurple">
-            <FaSearch size={25} />
-          </div>
+        <div className="hidden border-2 lg:flex items-center rounded border-[--my-purple]">
+          {isAuthenticated && (
+            <div className="w-44 relative flex items-center gap-3">
+              <img
+                className="w-14 p-2 h-14"
+                src={user?.picture}
+                onError={(e: SyntheticEvent<HTMLImageElement>) => {
+                  e.currentTarget.src = "https://is.gd/DwwpQT";
+                }}
+                alt="signed in users"
+              />
+              <div className="flex items-center gap-2">
+                <p className="text-[1.5rem] font-semibold">
+                  {user?.given_name}
+                </p>
+                <FaChevronDown
+                  onClick={() => setToggleProfile((prev) => !prev)}
+                  size={25}
+                />
+              </div>
+              {toggleProfile && (
+                <div className="absolute left-0 p-5 w-full top-14 border-2 border-[--my-purple] bg-black rounded-xl">
+                  <div className="grid gap-2">
+                    <p className="text-[1.2rem] font-semibold hover:underline cursor-pointer">
+                      Dashboard
+                    </p>
+                    <button
+                      onClick={() => logout()}
+                      type="button"
+                      className="btn btn-error text-lg text-white
+                     rounded-full"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!isAuthenticated && (
+            <button
+              onClick={() => loginWithRedirect()}
+              className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold"
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Hamburger Icon */}

@@ -1,6 +1,8 @@
 import { MongoClient } from "mongodb";
+import { WithId } from "mongodb";
 
-const { DATABASE_URL, DATABASE_NAME } = process.env;
+const { DATABASE_URL, DATABASE_NAME, DATABASE_CONTACT_COLLECTION } =
+  process.env;
 
 if (!DATABASE_URL) throw new Error("Database connection URI not provided.");
 

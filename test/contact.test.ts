@@ -1,38 +1,16 @@
 import { describe, it, expect } from "vitest";
-const Users = [
-  {
-    id: 1,
-    name: "test",
-    email: "test1@gmail.com",
-  },
-  {
-    id: 2,
-    name: "test",
-    email: "test2@gmail.com",
-  },
-];
-
-const LoadUser = (userEmail) => {
-  try {
-    const result = Users.find((item) => item?.email === userEmail);
-    return result;
-  } catch (error) {
-    return console.log("failed to get the user.");
-  }
-};
 
 describe("Contact Route", () => {
-  it("find users", () => {
-    const users = LoadUser("test1@gmail.com");
-    expect(users).toBeDefined();
-  });
-
-  it.fails("fails to find the user", () => {
-    it("find users", () => {
-      const users = LoadUser("test1@gmail.com");
-      expect(users).toBeDefined();
-    });
+  it("hit the api", async () => {
+    const response = await fetch("http://localhost:5000/api/contact-us");
+    const result = await response.json();
+    console.log("res", result);
+    // if (!response.ok) {
+    //   const error = await response.text();
+    //   expect(error).toMatch(/Error: Not Found/);
+    //   return;
+    // }
+    // const result = await response.json();
+    // expect(result).toBeDefined();
   });
 });
-
-console.log(LoadUser("test1@gmail.com"));

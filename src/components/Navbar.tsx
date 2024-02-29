@@ -124,7 +124,6 @@ export default function Navbar() {
 
   useEffect(() => {
     // console.log("status", isAuthenticated);
-    console.log("user-data", user);
     // console.log("loading", isLoading);
   }, [pathname, isAuthenticated, user]);
 

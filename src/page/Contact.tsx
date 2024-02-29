@@ -1,10 +1,21 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+const URL = import.meta.env.VITE_BASE_URL;
+import * as z from "zod";
 
 type InputType = {
   name: string;
   email: string;
   message: string;
 };
+
+const ContactSchema = z.object({
+  name: z.string().min(2).max(150),
+  email: z.string().email(),
+  message: z.string().min(5).max(250),
+});
+
+type ContactSchema = z.infer<typeof ContactSchema>;
 
 export default function Contact() {
   const {
@@ -14,9 +25,36 @@ export default function Contact() {
     formState: { errors },
   } = useForm<InputType>();
 
-  const onSubmit: SubmitHandler<InputType> = (data) => {
-    console.log("data", data);
-    reset();
+  const onSubmit: SubmitHandler<InputType> = async (data) => {
+    try {
+      ContactSchema.parse(data);
+      const response = await fetch(`${URL}/api/contact-us`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+
+      if (response.status !== 200) {
+        return toast.error(result.message);
+      }
+      console.log("res", result);
+      reset();
+      return toast.success(
+        "Thank your for connecting with us our tema will connect with you shortly."
+      );
+    } catch (e) {
+      const err = e as Error;
+      if (e instanceof z.ZodError) {
+        toast.error(e.errors[0].message);
+      } else {
+        toast.error(
+          `Something went wrong. Failed to submit the form : ${err?.message}`
+        );
+      }
+    }
   };
 
   return (
@@ -87,6 +125,7 @@ export default function Contact() {
           Submit
         </button>
       </form>
+      <Toaster />
     </section>
   );
 }

@@ -4,8 +4,10 @@ dotenv.config();
 const app = express();
 import morgan from "morgan";
 import allRoutes from '../routes/allRoutes';
+import cors from 'cors';
 
 // Middlewares
+app.use(cors());
 app.use(morgan('dev'));
 app.use(
   express.urlencoded({

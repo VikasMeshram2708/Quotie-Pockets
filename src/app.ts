@@ -3,8 +3,10 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 import morgan from "morgan";
+import allRoutes from '../routes/allRoutes';
 
 // Middlewares
+app.use(morgan('dev'));
 app.use(
   express.urlencoded({
     extended: true,
@@ -18,5 +20,7 @@ app.get("/", (req: Request, res: Response) => {
     message: "hello,world!",
   });
 });
+
+app.use('/api', allRoutes);
 
 export default app;

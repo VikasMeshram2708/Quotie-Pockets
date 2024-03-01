@@ -24,3 +24,17 @@ model ContactUs {
 
   created_at DateTime @default(now())
 }
+
+model Quoties {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title String
+
+  slug String @unique
+
+  content String
+
+  author String
+
+  created_at DateTime @default(now())
+}

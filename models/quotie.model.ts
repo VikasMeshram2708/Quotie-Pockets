@@ -1,12 +1,5 @@
 import * as z from "zod";
 
-import { db } from "../utils/ConnectToDb";
-
-const { DATABASE_QUOTIE_COLLECTION } = process.env;
-
-if (!DATABASE_QUOTIE_COLLECTION)
-  throw new Error("Please provided quoties collection name.");
-
 export const QuotieSchema = z.object({
   title: z
     .string()
@@ -34,8 +27,4 @@ export const QuotieSchema = z.object({
     }),
 });
 
-export type QuotieSchema = z.infer<typeof QuotieSchema>;
-
-export const QuotieCollection = db.collection<QuotieSchema>(
-  DATABASE_QUOTIE_COLLECTION
-);
+export default QuotieSchema;

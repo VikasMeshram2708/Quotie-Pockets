@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ContactCollection, ContactSchema } from "../models/contact.model";
+import { ZodError } from "zod";
 
 export const ContactController = async (req: Request, res: Response) => {
   try {
@@ -9,7 +10,7 @@ export const ContactController = async (req: Request, res: Response) => {
     });
 
     if (emailExist) {
-      return res.status(500).json({
+      return res.status(422).json({
         success: false,
         message: "Email already in use.",
       });
@@ -26,8 +27,14 @@ export const ContactController = async (req: Request, res: Response) => {
     });
   } catch (e) {
     const errorMessage = e as Error;
-    res.status(500).json({
-      message: `Something went wrong : ${errorMessage?.message}`,
-    });
+    if (e instanceof ZodError) {
+      res.status(500).json({
+        message: e?.errors[0]?.message,
+      });
+    } else {
+      res.status(500).json({
+        message: `Something went wrong : ${errorMessage?.message}`,
+      });
+    }
   }
 };

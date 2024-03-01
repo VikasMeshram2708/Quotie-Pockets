@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-import { WithId } from "mongodb";
 
 const { DATABASE_URL, DATABASE_NAME, DATABASE_CONTACT_COLLECTION } =
   process.env;

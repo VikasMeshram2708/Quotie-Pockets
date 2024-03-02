@@ -28,7 +28,7 @@ model ContactUs {
 model Quoties {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  slug       String   @unique
+  slug       String
   content    String
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String   @db.ObjectId

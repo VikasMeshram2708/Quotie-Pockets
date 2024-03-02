@@ -12,7 +12,6 @@ const LoginSchema = z.object({
   }),
 });
 
-type LoginSchemaType = z.infer<typeof LoginSchema>;
 export const LoginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;

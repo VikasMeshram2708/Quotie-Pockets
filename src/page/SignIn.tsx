@@ -1,6 +1,17 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import * as z from "zod";
+import nookies from "nookies";
+import { useNavigate } from "react-router-dom";
+
+// TODO
+
+/* 
+---
+setCookies , 
+use jsonwebtoken
+---
+*/
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -20,19 +31,42 @@ export default function SignIn() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<LoginSchemaType>();
+  const navigate = useNavigate();
 
-  const handleLogin: SubmitHandler<LoginSchemaType> = (data) => {
+  const handleLogin: SubmitHandler<LoginSchemaType> = async (data) => {
     try {
+      const BASE_URI = import.meta.env.VITE_BASE_URL;
       LoginSchema.parse(data);
-      console.log("received login", data);
+      const response = await fetch(`${BASE_URI}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        return toast.error(result?.message);
+      }
+
+      // set the cookies
+      nookies.set(null, "quotieAuth", data?.email, {
+        maxAge: 3600, // 60 minutes
+      });
+      reset();
+      toast.success(result?.message);
+      await new Promise(() => {
+        navigate("/quoties");
+      });
     } catch (e) {
       const err = e instanceof Error;
       if (e instanceof z.ZodError) {
-        toast.error(e?.errors[0]?.message);
+        return toast.error(e?.errors[0]?.message);
       } else {
-        toast.error(`Something went wrong :${err}`);
+        return toast.error(`Something went wrong :${err}`);
       }
     }
   };

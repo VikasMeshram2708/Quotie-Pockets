@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
+    "nookies": "^2.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",

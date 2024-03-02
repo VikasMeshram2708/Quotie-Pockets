@@ -13,8 +13,8 @@ import Quotie from "./page/Quotie.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import SignIn from "./page/SignIn.tsx";
 import SignUp from "./page/SignUp.tsx";
-import { Auth0Provider } from "@auth0/auth0-react";
 import Dashboard from "./page/Dashboard.tsx";
+import UserState from "./context/UserState.tsx";
 
 const router = createBrowserRouter([
   {
@@ -67,14 +67,8 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="bharatbuzzfeed.us.auth0.com"
-      clientId="1EeiyGovbr84qD7Au60OW6h0yCYf7Mp4"
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    >
+    <UserState>
       <RouterProvider router={router} />
-    </Auth0Provider>
+    </UserState>
   </React.StrictMode>
 );

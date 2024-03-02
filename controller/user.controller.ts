@@ -1,27 +1,29 @@
 import { Request, Response } from "express";
-import QuotieSchema from "../models/quotie.model";
+import UserSchema from "../models/user.model";
 import { ZodError } from "zod";
 import prisma from "../lib/Prisma";
 import ConnectToDb from "../lib/Db";
+import bcrypt from "bcryptjs";
 
-export const QuotieController = async (req: Request, res: Response) => {
+export const UserController = async (req: Request, res: Response) => {
   try {
-    const { title, slug, content, author, authorId } = req.body;
+    const { name, email, password } = req.body;
 
     // sanitize the incoming data.
-    QuotieSchema.parse({ title, slug, content, author, authorId });
+    UserSchema.parse({ name, email, password });
 
     // connect to the database
     await ConnectToDb();
 
+    // incrypt the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // insert to the database
-    const result = await prisma.quoties.create({
+    const result = await prisma.user.create({
       data: {
-        title,
-        slug,
-        content,
-        author,
-        authorId,
+        name,
+        email,
+        password: hashedPassword,
       },
     });
     return res.status(200).json({

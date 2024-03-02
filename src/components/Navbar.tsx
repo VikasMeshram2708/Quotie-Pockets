@@ -6,7 +6,6 @@ import { FaChevronDown } from "react-icons/fa";
 
 const SideBar = () => {
   const { pathname } = useLocation();
-  const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
   const [toggleProfile, setToggleProfile] = useState(false);
 
   return (
@@ -104,11 +103,8 @@ const SideBar = () => {
         )}
 
         {!isAuthenticated && (
-          <button
-            onClick={() => loginWithRedirect()}
-            className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold"
-          >
-            Login
+          <button className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold">
+            <Link to="signin">Login</Link>
           </button>
         )}
       </div>
@@ -244,11 +240,8 @@ export default function Navbar() {
           )}
 
           {!isAuthenticated && (
-            <button
-              onClick={() => loginWithRedirect()}
-              className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold"
-            >
-              Login
+            <button className="px-4 py-2 border-2 border-[--my-purple] rounded text-[1.2rem] hover:bg-purple-600 font-semibold">
+              <Link to="signin">Login</Link>
             </button>
           )}
         </div>

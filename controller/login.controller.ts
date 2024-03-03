@@ -5,6 +5,7 @@ import prisma from "../lib/Prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import bcrypt from "bcryptjs";
 
+
 const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(5, {
@@ -38,6 +39,12 @@ export const LoginController = async (req: Request, res: Response) => {
 
     // compare the password
     const matchPassword = await bcrypt.compare(password, userExist.password);
+    const { name: userName, email: userEmail, id:userId } = userExist;
+    const user = {
+      userName,
+      userEmail,
+      userId
+    };
 
     if (!matchPassword) {
       return res.status(403).json({
@@ -49,6 +56,7 @@ export const LoginController = async (req: Request, res: Response) => {
     res.json({
       success: true,
       message: "Login successful.",
+      user,
     });
   } catch (e) {
     const errorMessage = e as Error;

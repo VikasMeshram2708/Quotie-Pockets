@@ -2,7 +2,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import * as z from "zod";
 import nookies from "nookies";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+// import { UserContextProvider } from "../context/UserState";
 
 // TODO
 
@@ -28,13 +29,14 @@ const LoginSchema = z.object({
 type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export default function SignIn() {
+  // const { isAuthenticated } = UserContextProvider();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<LoginSchemaType>();
-  const navigate = useNavigate();
 
   const handleLogin: SubmitHandler<LoginSchemaType> = async (data) => {
     try {
@@ -48,18 +50,20 @@ export default function SignIn() {
         body: JSON.stringify(data),
       });
       const result = await response.json();
+      setLoading(true);
       if (!response.ok) {
         return toast.error(result?.message);
       }
 
       // set the cookies
       nookies.set(null, "quotieAuth", data?.email, {
-        maxAge: 3600, // 60 minutes
+        maxAge: 60 * 60, // 60 minutes
       });
       reset();
+      setLoading(false);
       toast.success(result?.message);
       await new Promise(() => {
-        navigate("/quoties");
+        window.location.href = "/";
       });
     } catch (e) {
       const err = e instanceof Error;
@@ -123,7 +127,7 @@ export default function SignIn() {
             type="submit"
             className="btn btn-accent font-semibold rounded"
           >
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
       </div>

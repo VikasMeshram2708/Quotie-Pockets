@@ -1,6 +1,6 @@
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useMemo, useState } from "react";
 import UserContext from "./UserContext";
-import { parseCookies } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 
 const UserState = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -8,21 +8,34 @@ const UserState = ({ children }: { children: ReactNode }) => {
   //   check if the cookies is there or not
   const cookieValue = parseCookies();
 
-  useEffect(() => {
+  // Logout Function
+  const Logout = () => {
+    console.log("logout-clicked");
+    setIsAuthenticated(false);
+    destroyCookie(null, "quotieAuth");
+    window.location.href = "/";
+  };
+
+  useMemo(() => {
     if (cookieValue?.quotieAuth === undefined) {
       setIsAuthenticated(false);
     } else {
       setIsAuthenticated(true);
     }
-  }, [cookieValue]);
-  console.log("isAuthenticated", isAuthenticated);
+  }, [cookieValue?.quotieAuth]);
+
+  useEffect(() => {
+    if (window.location.pathname === "/signin" && isAuthenticated) {
+      window.location.href = "/";
+    }
+  }, [isAuthenticated]);
 
   const user = {
     name: "vikas",
     email: "vikas@gmail.com",
   };
   return (
-    <UserContext.Provider value={{ user, isAuthenticated }}>
+    <UserContext.Provider value={{ user, isAuthenticated, Logout }}>
       {children}
     </UserContext.Provider>
   );

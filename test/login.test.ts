@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 describe("login route", () => {
-  it("Login api", async () => {
+  it("when successfull logged in", async () => {
     const testEmail = "test11@gmail.com";
     const testPassword = "tests";
     const response = await fetch("http://localhost:5000/api/login", {
@@ -15,9 +15,25 @@ describe("login route", () => {
       }),
     });
     const result = await response.json();
-    if (!response.ok) {
-      expect(result.success).toBe(false);
-    }
+    console.log(result);
     expect(result.success).toBe(true);
+  });
+
+  it("when logged in failed", async () => {
+    const testEmail = "test1@gmail.com";
+    const testPassword = "tests";
+    const response = await fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: testEmail,
+        password: testPassword,
+      }),
+    });
+    const result = await response.json();
+    console.log(result);
+    expect(result.success).toBe(false);
   });
 });

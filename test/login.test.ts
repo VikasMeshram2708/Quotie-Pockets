@@ -15,7 +15,6 @@ describe("login route", () => {
       }),
     });
     const result = await response.json();
-    console.log(result);
     expect(result.success).toBe(true);
   });
 
@@ -33,7 +32,6 @@ describe("login route", () => {
       }),
     });
     const result = await response.json();
-    console.log(result);
     expect(result.success).toBe(false);
   });
 });

@@ -1,8 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`Contact Us API > when email is already in use 1`] = `
-{
-  "message": "Email already in use.",
-  "success": false,
-}
-`;

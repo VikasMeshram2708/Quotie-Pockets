@@ -16,6 +16,11 @@ describe("Contact Us API", () => {
     });
     const result = await response.json();
     expect(result.success).toBe(false);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "message": "Email already in use.",
+        "success": false,
+      }
+    `);
   });
 });

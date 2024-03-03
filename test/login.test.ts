@@ -16,7 +16,17 @@ describe("login route", () => {
     });
     const result = await response.json();
     expect(result.success).toBe(true);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "message": "Login successful.",
+        "success": true,
+        "user": {
+          "userEmail": "test11@gmail.com",
+          "userId": "65e2b9820d04837dfc58f1a9",
+          "userName": "test",
+        },
+      }
+    `);
   });
 
   it("when logged in failed", async () => {
@@ -34,6 +44,11 @@ describe("login route", () => {
     });
     const result = await response.json();
     expect(result.success).toBe(false);
-    expect(result).toMatchSnapshot();
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "message": "Unauthorized User.",
+        "success": false,
+      }
+    `);
   });
 });

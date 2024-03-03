@@ -16,6 +16,7 @@ describe("login route", () => {
     });
     const result = await response.json();
     expect(result.success).toBe(true);
+    expect(result).toMatchSnapshot();
   });
 
   it("when logged in failed", async () => {
@@ -33,5 +34,6 @@ describe("login route", () => {
     });
     const result = await response.json();
     expect(result.success).toBe(false);
+    expect(result).toMatchSnapshot();
   });
 });

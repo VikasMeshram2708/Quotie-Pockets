@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ImCross } from "react-icons/im";
-import { UserUserContext } from "../context/UserState";
 
 export default function Navbar() {
-  const { getUserDetails } = UserUserContext();
   const [toggleModal, setToggleModal] = useState(false);
-  console.log("data", getUserDetails);
 
   return (
     <nav className="border-b-4 border-[--pprl] text-white p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">

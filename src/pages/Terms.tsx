@@ -66,7 +66,7 @@ export default function Terms() {
         {data?.map((item) => {
           return (
             <div key={Math.floor(1000 + Math.random() * 9000)}>
-              <h4>{item?.section}</h4>
+              <h4 className="text-white font-semibold">{item?.section}</h4>
               <ul>
                 <li>{item?.content}</li>
               </ul>

@@ -28,19 +28,22 @@ export default function Navbar() {
   } = useForm<LoginSchemaType>();
 
   const handleLoginForm: SubmitHandler<LoginSchemaType> = (data) => {
-    try {
-      LoginSchema.parse(data);
-      storeLoginDetails(data);
-      reset();
-      alert("ok");
-    } catch (e) {
-      const err = e instanceof Error;
-      if (e instanceof z.ZodError) {
-        alert(e?.errors[0]?.message);
-      } else {
-        alert(err);
-      }
-    }
+    LoginSchema.parse(data);
+    storeLoginDetails(data)
+    reset();
+    // try {
+    //   LoginSchema.parse(data);
+    //   storeLoginDetails(data);
+    //   reset();
+    //   alert("ok");
+    // } catch (e) {
+    //   const err = e instanceof Error;
+    //   if (e instanceof z.ZodError) {
+    //     alert(e?.errors[0]?.message);
+    //   } else {
+    //     alert(err);
+    //   }
+    // }
   };
   // const {storeLoginDetails} = UserUserContext();
   const [toggleModal, setToggleModal] = useState(false);

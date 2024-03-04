@@ -38,8 +38,26 @@ export const UserState = ({ children }: childrenWithProps) => {
     }
   };
 
-  const storeLoginDetails = (data: LoginSchemaType) => {
-    console.log("login-data", data);
+  const storeLoginDetails = async (data: LoginSchemaType) => {
+    try {
+      const response = await fetch(`${URI}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        return alert(result?.message);
+      }
+      return alert(result?.message);
+    } catch (e) {
+      const err = e as Error;
+      console.log(err?.message);
+      return alert(err?.message);
+    }
   };
 
   return (

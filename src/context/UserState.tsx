@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { LoginSchemaType, UserContext } from "./UserContext";
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useEffect } from "react";
+const URI = process.env.REACT_APP_BASE_URI;
 
 type childrenWithProps = {
   children: ReactNode;
@@ -13,8 +14,28 @@ export type ContactDataType = {
 };
 
 export const UserState = ({ children }: childrenWithProps) => {
-  const storeContactDetails = (data: ContactDataType) => {
-    console.log("contact-data", data);
+  const storeContactDetails = async (data: ContactDataType) => {
+    try {
+      const response = await fetch(`${URI}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        return alert(result?.message);
+      }
+      return alert(
+        "Thank you for contacting with us. Our team will contact you soon."
+      );
+    } catch (e) {
+      const err = e as Error;
+      console.log(err?.message);
+      return alert(err?.message);
+    }
   };
 
   const storeLoginDetails = (data: LoginSchemaType) => {

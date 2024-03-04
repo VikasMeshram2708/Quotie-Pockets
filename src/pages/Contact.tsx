@@ -33,21 +33,21 @@ export default function Contact() {
   } = useForm<contactSchemaType>();
 
   const handleForm: SubmitHandler<contactSchemaType> = (data) => {
-    try {
-      ContactSchema.parse(data);
-      storeContactDetails(data);
-      reset();
-      alert(
-        "Thank you for connecting with us. Our Team will connect with you shortly."
-      );
-    } catch (e) {
-      const err = e instanceof Error;
-      if (e instanceof z.ZodError) {
-        alert(e?.errors[0]?.message);
-      } else {
-        alert(err);
-      }
-    }
+    ContactSchema.parse(data);
+    storeContactDetails(data);
+    reset();
+    // try {
+    //   ContactSchema.parse(data);
+    //   storeContactDetails(data);
+    //   reset();
+    // } catch (e) {
+    //   const err = e instanceof Error;
+    //   if (e instanceof z.ZodError) {
+    //     alert(e?.errors[0]?.message);
+    //   } else {
+    //     alert(err);
+    //   }
+    // }
   };
   return (
     <section className="max-w-xl mx-auto">

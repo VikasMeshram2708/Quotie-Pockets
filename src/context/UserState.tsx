@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { LoginSchemaType, UserContext } from "./UserContext";
-import { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useContext } from "react";
 const URI = process.env.REACT_APP_BASE_URI;
 
 type childrenWithProps = {

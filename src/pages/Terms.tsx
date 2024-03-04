@@ -46,8 +46,7 @@ export default function Terms() {
     },
     {
       section: "Contact Us",
-      content:
-        "If you have questions, reach out to us.",
+      content: "If you have questions, reach out to us.",
     },
   ];
   return (
@@ -66,7 +65,7 @@ export default function Terms() {
       <div>
         {data?.map((item) => {
           return (
-            <div>
+            <div key={Math.floor(1000 + Math.random() * 9000)}>
               <h4>{item?.section}</h4>
               <ul>
                 <li>{item?.content}</li>

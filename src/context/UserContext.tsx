@@ -1,11 +1,12 @@
 import { createContext } from "react";
+import { ContactDataType } from "./UserState";
 
+export type LoginSchemaType = {
+  email: string;
+  password: string;
+};
 type UserData = {
-  user?: {
-    name: string;
-    age: string;
-  };
-
-  getUserDetails: { name: string; age: string };
+  storeContactDetails: (data: ContactDataType) => void;
+  storeLoginDetails: (data: LoginSchemaType) => void;
 };
 export const UserContext = createContext<UserData | null>(null);

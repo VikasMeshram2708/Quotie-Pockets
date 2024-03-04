@@ -1,21 +1,28 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { UserContext } from "./UserContext";
-import { ReactNode, useContext, useMemo } from "react";
+import { LoginSchemaType, UserContext } from "./UserContext";
+import { ReactNode, useContext } from "react";
 
 type childrenWithProps = {
   children: ReactNode;
 };
 
+export type ContactDataType = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 export const UserState = ({ children }: childrenWithProps) => {
-  const getUserDetails = useMemo(() => {
-    const user = {
-      name: "Vikas Meshram",
-      age: "23",
-    };
-    return user;
-  }, []);
+  const storeContactDetails = (data: ContactDataType) => {
+    console.log("contact-data", data);
+  };
+
+  const storeLoginDetails = (data: LoginSchemaType) => {
+    console.log("login-data", data);
+  };
+
   return (
-    <UserContext.Provider value={{ getUserDetails }}>
+    <UserContext.Provider value={{ storeContactDetails, storeLoginDetails }}>
       {children}
     </UserContext.Provider>
   );

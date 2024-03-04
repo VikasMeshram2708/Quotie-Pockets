@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
+import { UserUserContext } from "../context/UserState";
 
 const ContactSchema = z.object({
   name: z
@@ -23,27 +24,28 @@ const ContactSchema = z.object({
 
 type contactSchemaType = z.infer<typeof ContactSchema>;
 export default function Contact() {
+  const { storeContactDetails } = UserUserContext();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<contactSchemaType>();
 
   const handleForm: SubmitHandler<contactSchemaType> = (data) => {
     try {
       ContactSchema.parse(data);
-      console.log("received", data);
-      alert("Thank you for connecting with us. Our Team will connect with you shortly.");
+      storeContactDetails(data);
+      reset();
+      alert(
+        "Thank you for connecting with us. Our Team will connect with you shortly."
+      );
     } catch (e) {
       const err = e instanceof Error;
       if (e instanceof z.ZodError) {
-        console.log(e?.errors[0]?.message);
         alert(e?.errors[0]?.message);
-        // return toast(e?.errors[0]?.message);
       } else {
-        console.log(err);
         alert(err);
-        // return toast(err);
       }
     }
   };

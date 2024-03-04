@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { UserState } from "./context/UserState";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,8 +13,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Navbar />
-      <App />
+      <UserState>
+        <Navbar />
+        <App />
+      </UserState>
     </BrowserRouter>
   </React.StrictMode>
 );

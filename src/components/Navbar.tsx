@@ -31,25 +31,11 @@ export default function Navbar() {
     LoginSchema.parse(data);
     storeLoginDetails(data)
     reset();
-    // try {
-    //   LoginSchema.parse(data);
-    //   storeLoginDetails(data);
-    //   reset();
-    //   alert("ok");
-    // } catch (e) {
-    //   const err = e instanceof Error;
-    //   if (e instanceof z.ZodError) {
-    //     alert(e?.errors[0]?.message);
-    //   } else {
-    //     alert(err);
-    //   }
-    // }
   };
-  // const {storeLoginDetails} = UserUserContext();
   const [toggleModal, setToggleModal] = useState(false);
 
   return (
-    <nav className="border-b-4 border-[--pprl] text-white p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">
+    <nav className="border-b-4 border-[--pprl] text-white h-24 p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">
       <h1 className="text-[2rem] font-Pacifico italic">
         <NavLink to="/">Quotie Pockets</NavLink>
       </h1>

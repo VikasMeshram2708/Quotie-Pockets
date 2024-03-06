@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ImCross } from "react-icons/im";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import * as z from "zod";
 import { UserUserContext } from "../context/UserState";
 import { RiEyeCloseFill } from "react-icons/ri";
 import { BsFillEyeFill } from "react-icons/bs";
+import { destroyCookie } from "nookies";
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -22,7 +23,7 @@ const LoginSchema = z.object({
 export default function Navbar() {
   const [toggleEye, setToggleEye] = useState(false);
 
-  const { storeLoginDetails } = UserUserContext();
+  const { storeLoginDetails, isAuthenticated } = UserUserContext();
   const {
     register,
     handleSubmit,
@@ -30,12 +31,18 @@ export default function Navbar() {
     formState: { errors },
   } = useForm<LoginSchemaType>();
 
-  const handleLoginForm: SubmitHandler<LoginSchemaType> = (data) => {
+  const handleLoginForm: SubmitHandler<LoginSchemaType> = async (data) => {
     LoginSchema.parse(data);
     storeLoginDetails(data);
     reset();
+    await new Promise(() => {
+      setToggleModal(false);
+    });
   };
   const [toggleModal, setToggleModal] = useState(false);
+
+  useEffect(() => {
+  }, [isAuthenticated]);
 
   return (
     <nav className="border-b-4 border-[--pprl] text-white h-24 p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">
@@ -60,15 +67,27 @@ export default function Navbar() {
         </li>
       </ul>
       <div>
-        <button
-          onClick={() => {
-            setToggleModal((prev) => !prev);
-          }}
-          type="button"
-          className="px-4 py-2 rounded-lg border-4 border-[--pprl]  font-semibold text-[1.2rem]"
-        >
-          Login
-        </button>
+        {isAuthenticated ? (
+          <button
+            onClick={() => {
+              destroyCookie(null, "quotieAuth");
+            }}
+            type="button"
+            className="px-4 py-2 rounded-lg border-4 border-[--pprl]  font-semibold text-[1.2rem]"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setToggleModal((prev) => !prev);
+            }}
+            type="button"
+            className="px-4 py-2 rounded-lg border-4 border-[--pprl]  font-semibold text-[1.2rem]"
+          >
+            Login
+          </button>
+        )}
       </div>
       {toggleModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500/40">

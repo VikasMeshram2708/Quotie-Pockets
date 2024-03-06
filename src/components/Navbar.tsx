@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ImCross } from "react-icons/im";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginSchemaType } from "../context/UserContext";
 import * as z from "zod";
 import { UserUserContext } from "../context/UserState";
-// import { UserUserContext } from "../context/UserState";
+import { RiEyeCloseFill } from "react-icons/ri";
+import { BsFillEyeFill } from "react-icons/bs";
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -19,6 +20,8 @@ const LoginSchema = z.object({
     }),
 });
 export default function Navbar() {
+  const [toggleEye, setToggleEye] = useState(false);
+
   const { storeLoginDetails } = UserUserContext();
   const {
     register,
@@ -29,7 +32,7 @@ export default function Navbar() {
 
   const handleLoginForm: SubmitHandler<LoginSchemaType> = (data) => {
     LoginSchema.parse(data);
-    storeLoginDetails(data)
+    storeLoginDetails(data);
     reset();
   };
   const [toggleModal, setToggleModal] = useState(false);
@@ -104,10 +107,10 @@ export default function Navbar() {
                 </p>
               )}
             </div>
-            <div className="grid gap-3">
+            <div className="grid gap-3 relative">
               <label htmlFor="password">Password</label>
               <input
-                type="password"
+                type={toggleEye ? "text" : "password"}
                 className="border-4 rounded border-[--pprl] outline-none p-2"
                 placeholder="Enter password"
                 {...register("password", {
@@ -121,6 +124,22 @@ export default function Navbar() {
                   },
                 })}
               />
+              {toggleEye ? (
+                <BsFillEyeFill
+                  onClick={() => {
+                    setToggleEye((prev) => !prev);
+                  }}
+                  className="absolute right-3 bottom-4 cursor-pointer"
+                />
+              ) : (
+                <RiEyeCloseFill
+                  onClick={() => {
+                    console.log("toggled", toggleEye);
+                    setToggleEye((prev) => !prev);
+                  }}
+                  className="absolute right-3 bottom-4 cursor-pointer"
+                />
+              )}
               {errors?.password && (
                 <p className="text-red-500 font-semibold">
                   {errors?.password?.message}

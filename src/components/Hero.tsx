@@ -31,7 +31,8 @@ export default function Hero() {
           muted="muted"
           src="https://cdnl.iconscout.com/lottie/premium/thumb/freelance-writer-typing-on-laptop-10237924-8329529.mp4"
           type="video/mp4"
-          autoplay="autoplay"
+          // @ts-expect-error
+          autoPlay="autoplay"
           // @ts-expect-error
           loop="loop"
         />

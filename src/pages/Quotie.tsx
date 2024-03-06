@@ -30,12 +30,17 @@ export default function Quotie() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<QuotiesType>();
-  const handleForm: SubmitHandler<QuotiesType> = (data) => {
+  const handleForm: SubmitHandler<QuotiesType> = async (data) => {
     try {
       QuotieSchema.parse(data);
       console.log("quotie-data", data);
+      reset();
+      new Promise(() => {
+        alert("Your Quotie was stored.");
+      });
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {

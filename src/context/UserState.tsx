@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { LoginSchemaType, UserContext } from "./UserContext";
-import { ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { ReactNode, useContext, useMemo, useState } from "react";
 import { setCookie, parseCookies } from "nookies";
+import { useNavigate } from "react-router-dom";
 const URI = process.env.REACT_APP_BASE_URI;
 
 type childrenWithProps = {
@@ -15,6 +16,7 @@ export type ContactDataType = {
 };
 
 export const UserState = ({ children }: childrenWithProps) => {
+  const navigate = useNavigate();
   const storeContactDetails = async (data: ContactDataType) => {
     try {
       const response = await fetch(`${URI}`, {
@@ -59,9 +61,8 @@ export const UserState = ({ children }: childrenWithProps) => {
         maxAge: 60 * 60,
       });
       // Set isauthenticated to true when the user has the cookie
-      await new Promise(() => {
-        return alert(result?.message);
-      });
+      alert(result?.message);
+      return navigate("/")
     } catch (e) {
       const err = e as Error;
       console.log(err?.message);

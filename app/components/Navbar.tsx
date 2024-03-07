@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Navbar() {
   return (
     <nav className="navbar bg-base-100 shadow-lg">
@@ -24,45 +26,45 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Home</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a>About Us</a>
+              <Link href="/">About Us</Link>
             </li>
             <li>
-              <a>Contact Us</a>
+              <Link href="/">Contact Us</Link>
             </li>
             <li>
-              <a>Privacy Policy</a>
+              <Link href="/">Privacy Policy</Link>
             </li>
             <li>
-              <a>Terms of Use</a>
+              <Link href="/">Terms of Use</Link>
             </li>
           </ul>
         </div>
-        <a className="text-xl font-Pacifico text-[1.7rem]">Quotie Pockets</a>
+        <Link href="/" className="text-xl font-Pacifico text-[1.7rem]">Quotie Pockets</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Home</a>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <a>About Us</a>
+            <Link href="/">About Us</Link>
           </li>{" "}
           <li>
-            <a>Contact Us</a>
+            <Link href="/">Contact Us</Link>
           </li>{" "}
           <li>
-            <a>Privacy Policy</a>
+            <Link href="/">Privacy Policy</Link>
           </li>
           <li>
-            <a>Terms of Use</a>
+            <Link href="/">Terms of Use</Link>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-      <button className="btn btn-active btn-ghost">Accent</button>
+      <button className="btn btn-active btn-ghost">Login</button>
       </div>
     </nav>
   );

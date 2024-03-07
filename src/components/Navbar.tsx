@@ -44,7 +44,7 @@ export default function Navbar() {
   useEffect(() => {}, [isAuthenticated]);
 
   return (
-    <nav className="border-b-4 border-[--pprl] text-white h-24 p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">
+    <nav className="lg:border-b-4 border-[--pprl] text-white h-24 p-2 flex flex-wrap gap-5 items-center justify-between max-w-[90%] mx-auto">
       <h1 className="text-[2rem] font-Pacifico italic">
         <NavLink to="/">Quotie Pockets</NavLink>
       </h1>

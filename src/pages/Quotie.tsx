@@ -1,10 +1,8 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-
-// type QuotiesType = {
-//   title: string;
-//   message: string;
-// };
+import { RiDeleteBinFill } from "react-icons/ri";
+import { FaEdit } from "react-icons/fa";
 
 const QuotieSchema = z.object({
   title: z
@@ -25,8 +23,16 @@ const QuotieSchema = z.object({
     }),
 });
 
+type QuotiesList = {
+  id: number;
+  data: {
+    title: string;
+    message: string;
+  };
+};
 type QuotiesType = z.infer<typeof QuotieSchema>;
 export default function Quotie() {
+  const [quoties, setQuoties] = useState<QuotiesList[]>([]);
   const {
     register,
     handleSubmit,
@@ -38,9 +44,11 @@ export default function Quotie() {
       QuotieSchema.parse(data);
       console.log("quotie-data", data);
       reset();
-      new Promise(() => {
-        alert("Your Quotie was stored.");
-      });
+      const QuotesData: QuotiesList = {
+        id: Math.floor(1000 + Math.random() * 9000),
+        data,
+      };
+      setQuoties((prev) => [...prev, QuotesData]);
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {
@@ -50,9 +58,18 @@ export default function Quotie() {
       }
     }
   };
+
+  const handleDelete = (quoteId: number) => {
+    console.log("id", quoteId);
+    const newQuotes = quoties?.filter((quote: any) => quote?.id !== quoteId);
+    setQuoties(newQuotes);
+  };
   return (
-    <section className="max-w-2xl mx-auto mt-24">
-      <form onSubmit={handleSubmit(handleForm)} className="grid gap-5">
+    <section className="max-w-[90%] mx-auto mt-24">
+      <form
+        onSubmit={handleSubmit(handleForm)}
+        className="grid gap-5 max-w-xl mx-auto"
+      >
         <div className="grid gap-3 text-white">
           <label htmlFor="title">Title</label>
           <input
@@ -120,6 +137,27 @@ export default function Quotie() {
           </button>
         </div>
       </form>
+      <ul className="max-w-7xl mx-auto mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+        {quoties?.map((quote, index) => (
+          <div className="border-2 border-[--pprl] p-2 rounded" key={index}>
+            <div className="flex items-center justify-between">
+              <h4 className="text-white font-semibold text-[1.25rem]">
+                {quote?.data?.title}
+              </h4>
+              <div className="flex items-center gap-2">
+                <RiDeleteBinFill
+                  className="cursor-pointer"
+                  onClick={() => handleDelete(quote?.id)}
+                  size={25}
+                  color="red"
+                />
+                <FaEdit className="cursor-pointer" size={25} color="red" />
+              </div>
+            </div>
+            <p className="text-white text-[.95rem]">{quote?.data?.message}</p>
+          </div>
+        ))}
+      </ul>
     </section>
   );
 }

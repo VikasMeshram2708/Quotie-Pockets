@@ -7,7 +7,12 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-
+    extend: {
+      fontFamily: {
+        Pacifico: ["Pacifico", "cursive"],
+        Poppins: ["Poppins", "sans-serif"],
+      },
+    },
   },
   plugins: [require("daisyui")],
 };

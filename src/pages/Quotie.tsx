@@ -33,16 +33,20 @@ type QuotiesList = {
 type QuotiesType = z.infer<typeof QuotieSchema>;
 export default function Quotie() {
   const [quoties, setQuoties] = useState<QuotiesList[]>([]);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editingQuote, setEditingQuote] = useState<QuotiesList | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<QuotiesType>();
+
   const handleForm: SubmitHandler<QuotiesType> = async (data) => {
     try {
       QuotieSchema.parse(data);
-      console.log("quotie-data", data);
+      // console.log("quotie-data", data);
       reset();
       const QuotesData: QuotiesList = {
         id: Math.floor(1000 + Math.random() * 9000),
@@ -60,14 +64,41 @@ export default function Quotie() {
   };
 
   const handleDelete = (quoteId: number) => {
-    console.log("id", quoteId);
     const newQuotes = quoties?.filter((quote: any) => quote?.id !== quoteId);
     setQuoties(newQuotes);
   };
+
+  const handleEdit = (quote: QuotiesList) => {
+    setIsEditing(true);
+    setEditingQuote(quote);
+  };
+
+  const handleEditForm: SubmitHandler<QuotiesType> = async (data) => {
+    try {
+      QuotieSchema?.parse(data);
+      if (editingQuote) {
+        const updatedQuotes = quoties?.map((quote) =>
+          quote?.id === editingQuote?.id ? { ...quote, data } : quote
+        );
+        setQuoties(updatedQuotes);
+        setIsEditing(false);
+        setEditingQuote(null);
+        reset();
+      }
+    } catch (e) {
+      const err = e as Error;
+      if (e instanceof z.ZodError) {
+        return alert(e?.errors[0]?.message);
+      } else {
+        return alert(err?.message);
+      }
+    }
+  };
+
   return (
     <section className="max-w-[90%] mx-auto mt-24">
       <form
-        onSubmit={handleSubmit(handleForm)}
+        onSubmit={handleSubmit(isEditing ? handleEditForm : handleForm)}
         className="grid gap-5 max-w-xl mx-auto"
       >
         <div className="grid gap-3 text-white">
@@ -77,6 +108,7 @@ export default function Quotie() {
             inputMode="text"
             className="outline-none border-2 border-[--pprl] p-2 rounded"
             autoFocus
+            defaultValue={isEditing ? editingQuote?.data?.title : ""}
             placeholder="Enter text"
             {...register("title", {
               min: {
@@ -107,6 +139,7 @@ export default function Quotie() {
             className="outline-none border-2 border-[--pprl] p-2 rounded"
             autoFocus
             rows={5}
+            defaultValue={isEditing ? editingQuote?.data?.message : ""}
             {...register("message", {
               min: {
                 value: 2,
@@ -133,8 +166,20 @@ export default function Quotie() {
             type="submit"
             className="px-4 py-2 bg-pink-500 font-semibold text-[1.2rem] text-white rounded"
           >
-            Submit
+            {isEditing ? "Confirm" : "Submit"}
           </button>
+          {isEditing && (
+            <button
+              onClick={() => {
+                setIsEditing(false);
+                setEditingQuote(null);
+              }}
+              type="button"
+              className="px-4 py-2 bg-red-500 font-semibold text-[1.2rem] text-white rounded ml-4"
+            >
+              Cancel
+            </button>
+          )}
         </div>
       </form>
       <ul className="max-w-7xl mx-auto mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -151,7 +196,12 @@ export default function Quotie() {
                   size={25}
                   color="red"
                 />
-                <FaEdit className="cursor-pointer" size={25} color="red" />
+                <FaEdit
+                  onClick={() => handleEdit(quote)}
+                  className="cursor-pointer"
+                  size={25}
+                  color="red"
+                />
               </div>
             </div>
             <p className="text-white text-[.95rem]">{quote?.data?.message}</p>

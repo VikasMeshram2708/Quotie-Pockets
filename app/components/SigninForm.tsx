@@ -4,14 +4,19 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
 import { UserLoginSchema } from "../api/models/UserLoginModel";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 export default function SigninForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<SignInType>();
+
+  const [cookie, setCookie] = useCookies();
 
   const handleSignup: SubmitHandler<SignInType> = async (data) => {
     try {
@@ -20,25 +25,29 @@ export default function SigninForm() {
       console.log("data", data);
 
       // Hit the api
-        const response = await fetch("/api/signin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
+      const response = await fetch("/api/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-        const result = await response.json();
-        if (!response.ok) {
-          return alert(result?.message);
-        }
+      const result = await response.json();
+      if (!response.ok) {
+        return alert(result?.message);
+      }
 
-      // console.log("user-data", data);
+      console.log("user-data", result?.user);
+
+      // Set the cookies
+      setCookie("QuotieAuth", JSON.stringify(result?.user));
 
       // reset the form
       reset();
 
-        return alert(result?.message);
+      alert(result?.message);
+      return router.push("/");
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {

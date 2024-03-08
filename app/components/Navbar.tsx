@@ -42,7 +42,9 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <Link href="/" className="text-xl font-Pacifico text-[1.7rem]">Quotie Pockets</Link>
+        <Link href="/" className="text-xl font-Pacifico text-[1.7rem]">
+          Quotie Pockets
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -64,7 +66,9 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-      <button className="btn btn-active btn-ghost">Login</button>
+        <button className="btn btn-active btn-ghost">
+          <Link href="/signin">Login</Link>
+        </button>
       </div>
     </nav>
   );

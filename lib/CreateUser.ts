@@ -67,12 +67,15 @@ export const handleSignUp = async (data: FormData) => {
   } catch (e) {
     const err = e as Error;
     if (e instanceof PrismaClientKnownRequestError) {
-      console.log("Something went wrong. Prisma Error : ", e.message);
+      return console.log("Something went wrong. Prisma Error : ", e.message);
     }
     if (e instanceof z.ZodError) {
-      console.log("Something went wrong. Zod Error : ", e.errors[0].message);
+      return console.log(
+        "Something went wrong. Zod Error : ",
+        e.errors[0].message
+      );
     }
-    console.log(
+    return console.log(
       `Something went wrong. Failed to Create the user. : ${err?.message}`
     );
   }

@@ -2,8 +2,8 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import { UserSchema } from "../api/models/UserModel";
 import Link from "next/link";
+import { UserLoginSchema } from "../api/models/UserLoginModel";
 
 export default function SigninForm() {
   const {
@@ -16,29 +16,29 @@ export default function SigninForm() {
   const handleSignup: SubmitHandler<SignInType> = async (data) => {
     try {
       // sanitie the data
-      UserSchema.parse(data);
+      UserLoginSchema.parse(data);
       console.log("data", data);
 
       // Hit the api
-      //   const response = await fetch("/api/signup", {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(data),
-      //   });
+        const response = await fetch("/api/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      //   const result = await response.json();
-      //   if (!response.ok) {
-      //     return alert(result?.message);
-      //   }
+        const result = await response.json();
+        if (!response.ok) {
+          return alert(result?.message);
+        }
 
       // console.log("user-data", data);
 
       // reset the form
       reset();
 
-      //   return alert(result?.message);
+        return alert(result?.message);
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {

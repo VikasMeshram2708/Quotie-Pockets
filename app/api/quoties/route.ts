@@ -3,7 +3,6 @@ import { prisma } from "@/helpers/Prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
 import * as z from "zod";
-import bcrypt from "bcryptjs";
 import { QuotiesSchema } from "../models/QuotiesModel";
 
 export const POST = async (req: NextRequest) => {

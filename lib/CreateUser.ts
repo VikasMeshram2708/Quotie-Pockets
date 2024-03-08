@@ -1,6 +1,6 @@
-export const handleSignUp = async (data: FormData) => {
-  "use server";
+"use server";
 
+export const handleSignUp = async (data: FormData) => {
   const name = data.get("name");
   const email = data.get("email");
   const password = data.get("password");

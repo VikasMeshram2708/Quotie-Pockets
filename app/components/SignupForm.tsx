@@ -1,9 +1,18 @@
+"use client";
+
 import { handleSignUp } from "@/lib/CreateUser";
+import { useRef } from "react";
 
 export default function SignupForm() {
+  const ref = useRef<HTMLFormElement>(null);
+
   return (
     <form
-      action={handleSignUp}
+      ref={ref}
+      action={async (formData) => {
+        await handleSignUp(formData);
+        ref.current?.reset();
+      }}
       className="border-2 border-accent rounded mt-10 max-w-sm mx-auto p-5 grid gap-5"
     >
       {/* name */}

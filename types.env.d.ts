@@ -1,7 +1,8 @@
 type QuotieType = {
-  id: number;
-  quotieTitle: string;
-  quotieMessage: string;
+  title: string;
+  slug: string;
+  message: string;
+  author: string;
 };
 
 type UserType = {

@@ -5,6 +5,12 @@ type QuotieType = {
   author: string;
 };
 
+type ContactType = {
+  name: string;
+  email: string;
+  message: string;
+};
+
 type SignInType = {
   email: string;
   password: string;

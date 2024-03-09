@@ -38,3 +38,13 @@ model User {
 
   Quoties Quoties[]
 }
+
+model Contact {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+
+  email String @unique
+
+  message String
+}

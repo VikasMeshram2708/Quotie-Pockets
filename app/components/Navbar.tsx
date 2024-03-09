@@ -29,16 +29,16 @@ export default function Navbar() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/">About Us</Link>
+              <Link href="/about">About Us</Link>
             </li>
             <li>
-              <Link href="/">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
             <li>
-              <Link href="/">Privacy Policy</Link>
+              <Link href="/privacy">Privacy Policy</Link>
             </li>
             <li>
-              <Link href="/">Terms of Use</Link>
+              <Link href="/terms">Terms of Use</Link>
             </li>
           </ul>
         </div>
@@ -52,16 +52,16 @@ export default function Navbar() {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/">About Us</Link>
+            <Link href="/about">About Us</Link>
           </li>{" "}
           <li>
-            <Link href="/">Contact Us</Link>
+            <Link href="/contact">Contact Us</Link>
           </li>{" "}
           <li>
-            <Link href="/">Privacy Policy</Link>
+            <Link href="/privacy">Privacy Policy</Link>
           </li>
           <li>
-            <Link href="/">Terms of Use</Link>
+            <Link href="/terms">Terms of Use</Link>
           </li>
         </ul>
       </div>

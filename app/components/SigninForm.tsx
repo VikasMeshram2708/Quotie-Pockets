@@ -47,7 +47,7 @@ export default function SigninForm() {
       reset();
 
       alert(result?.message);
-      return router.push("/");
+      return router.push("/quoties");
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {

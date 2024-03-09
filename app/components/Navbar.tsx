@@ -1,6 +1,38 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 export default function Navbar() {
+  const router = useRouter();
+  const [cookie] = useCookies(["QuotieAuth"]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (cookie?.QuotieAuth !== undefined) {
+      setIsAuthenticated(true);
+    }
+    console.log("cookie", cookie?.QuotieAuth);
+  }, [cookie]);
+
+  // Logout Function
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/logout");
+      const result = await response.json();
+      if (!response.ok) {
+        return alert(result?.message);
+      }
+      alert(result?.message);
+      return router.push("/");
+    } catch (e) {
+      const err = e as Error;
+      return alert(err?.message);
+    }
+  };
+
   return (
     <nav className="navbar bg-base-100 shadow-lg">
       <div className="navbar-start">
@@ -66,9 +98,17 @@ export default function Navbar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-active btn-ghost">
-          <Link href="/signin">Login</Link>
-        </button>
+        {!isAuthenticated && (
+          <button className="btn btn-active btn-ghost">
+            <Link href="/signin">Login</Link>
+          </button>
+        )}
+
+        {isAuthenticated && (
+          <button onClick={handleLogout} className="btn btn-active btn-ghost">
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );

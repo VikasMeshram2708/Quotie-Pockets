@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { UserLoginSchema } from "../models/UserLoginModel";
+import { revalidatePath } from "next/cache";
 
 export const POST = async (req: NextRequest) => {
   try {

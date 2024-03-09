@@ -6,13 +6,14 @@ import { QuotiesSchema } from "../api/models/QuotiesModel";
 import slugify from "slugify";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function QuotieForm() {
   const [cookie] = useCookies(["QuotieAuth"]);
   const [author, setAuthor] = useState(null);
 
   useEffect(() => {
-    setAuthor(cookie.QuotieAuth.id);
+    return setAuthor(cookie?.QuotieAuth?.id);
   }, [cookie]);
 
   const {

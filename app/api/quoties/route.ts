@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest) => {
         slug: slug,
         author: {
           connect: {
-            id: "65eadc861cdc44d32f3137e7",
+            id: author,
           },
         },
       },
@@ -48,6 +48,24 @@ export const POST = async (req: NextRequest) => {
       );
     }
     if (e instanceof PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        // Handle unique constraint violation
+        const targetField = e.meta?.target;
+
+        if (targetField === "Quoties_slug_key") {
+          return NextResponse.json(
+            {
+              success: false,
+              message:
+                "This slug is already taken. Please choose a different slug.",
+            },
+            {
+              status: 500,
+            }
+          );
+        }
+      }
+
       return NextResponse.json(
         {
           success: false,

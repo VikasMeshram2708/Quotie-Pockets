@@ -4,9 +4,17 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { QuotiesSchema } from "../api/models/QuotiesModel";
 import slugify from "slugify";
-
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 
 export default function QuotieForm() {
+  const [cookie] = useCookies(["QuotieAuth"]);
+  const [author, setAuthor] = useState(null);
+
+  useEffect(() => {
+    setAuthor(cookie.QuotieAuth.id);
+  }, [cookie]);
+
   const {
     register,
     handleSubmit,
@@ -14,7 +22,7 @@ export default function QuotieForm() {
     formState: { errors },
   } = useForm<QuotieType>();
 
-  const handleQuoties: SubmitHandler<QuotieType> = (data) => {
+  const handleQuoties: SubmitHandler<QuotieType> = async (data) => {
     try {
       const { title, message } = data;
       const slug = slugify(title);
@@ -23,12 +31,28 @@ export default function QuotieForm() {
         title,
         slug,
         message,
-        author: "65eadc861cdc44d32f3137e7",
+        author,
       };
 
+      // sanitize the data
       QuotiesSchema.parse(quotiesData);
-      console.log("quoties", quotiesData);
-      return reset();
+
+      // hit the api
+      const response = await fetch("/api/quoties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quotiesData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        return alert(result?.message);
+      }
+      reset();
+      return alert(result?.message);
     } catch (e) {
       const err = e as Error;
       if (e instanceof z.ZodError) {

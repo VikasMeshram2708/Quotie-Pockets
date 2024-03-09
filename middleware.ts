@@ -4,9 +4,9 @@ import type { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const protectedPath = "/quoties";
-  const path = request.nextUrl.pathname;
+  // const path = request.nextUrl.pathname;
   const cookieData = request.cookies.get("QuotieAuth")?.value || "";
-  console.log("current-paht", path);
+  // console.log("current-paht", path);
   //   console.log("cookie-data", JSON.parse(cookieData));
 
   if (protectedPath && cookieData) {
